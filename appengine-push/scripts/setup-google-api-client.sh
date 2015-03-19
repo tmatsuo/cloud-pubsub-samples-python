@@ -7,19 +7,12 @@ if [ -z "$1" ]; then
     exit
 fi
 
-TMP=${1}/pip-setup-$$.$RANDOM
+TMP=`mktemp -d 2>/dev/null || mktemp -d -t 'pip-setup'`
 LIBDIR=${1}/lib
 
 if [ "$2" == "--clean" ]; then
     echo "Removing the ${LIBDIR} first"
 fi
-
-if [ -e ${TMP} ]; then
-    echo "Sorry, couldn't choose a temp directory."
-    exit
-fi
-
-mkdir -p ${TMP}
 
 virtualenv -p python2.7 --no-site-packages ${TMP}
 source ${TMP}/bin/activate
